@@ -12,7 +12,11 @@ class PingPongSocket(WebSocketHandler):
         print('new websocket connection')
 
     def on_message(self, message):
-        print('message')
+        print(message)
+        if(str(message) == 'Ping'):
+            self.write_message('Pong')
+        if(str(message) == 'Pong'):
+            self.write_message('Ping')
 
     def on_close(self):
         print('websocket connection closed')

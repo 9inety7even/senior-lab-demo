@@ -6,9 +6,10 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"></link>
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script type="text/javascript">
+        var socket;
         function CreateSocket() {    
             if ("WebSocket" in window) {
-                var socket = new WebSocket("ws://127.0.0.1:5000/ws");
+                socket = new WebSocket("ws://127.0.0.1:5000/ws");
                 
                 socket.onopen = function() {
                     console.log('websocket connection opened');
@@ -16,6 +17,8 @@
 
                 socket.onmessage = function(message) {
                     var received_message = message.data;
+                    $('#ppbutton').text(received_message);
+                    console.log(received_message);
                 };
 
                 socket.onclose = function() {
@@ -23,12 +26,17 @@
                 };
             }
         }
+
+        function PingPong() {
+            current = $('#ppbutton').text();
+            socket.send(current);
+        }
         </script>
     </head>
     <body onload="CreateSocket()">
         <center>
             <br><br><br><br><br><br><br><br>
-            <button type="button" id="ppbutton">Ping</button>
+            <button type="button" id="ppbutton" onclick="PingPong()">Ping</button>
         </center>
     </body>
 </html>
