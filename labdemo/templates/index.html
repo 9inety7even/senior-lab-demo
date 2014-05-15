@@ -5,8 +5,27 @@
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"></link>
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <script type="text/javascript">
+        function CreateSocket() {    
+            if ("WebSocket" in window) {
+                var socket = new WebSocket("ws://127.0.0.1:5000/ws");
+                
+                socket.onopen = function() {
+                    console.log('websocket connection opened');
+                };
+
+                socket.onmessage = function(message) {
+                    var received_message = message.data;
+                };
+
+                socket.onclose = function() {
+                    console.log('websocket connection closed');
+                };
+            }
+        }
+        </script>
     </head>
-    <body>
+    <body onload="CreateSocket()">
         <center>
             <br><br><br><br><br><br><br><br>
             <button type="button" id="ppbutton">Ping</button>
